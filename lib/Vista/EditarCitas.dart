@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(const VentanaACitas());
+  runApp(const VentanaECitas());
 }
 
-class VentanaACitas extends StatelessWidget {
-  const VentanaACitas({super.key});
+class VentanaECitas extends StatelessWidget {
+  const VentanaECitas({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Añadir Citas',
-        home: AnadirCitas());
+        title: 'Editar Citas',
+        home: EditarCitas());
   }
 }
 
-class AnadirCitas extends StatefulWidget {
-  const AnadirCitas({super.key});
+class EditarCitas extends StatefulWidget {
+  const EditarCitas({super.key});
 
   @override
-  State<AnadirCitas> createState() => _AnadirCitasState();
+  State<EditarCitas> createState() => _EditarCitasState();
 }
 
-class _AnadirCitasState extends State<AnadirCitas> {
+class _EditarCitasState extends State<EditarCitas> {
   DateTime? FechaSeleccionada;
   TimeOfDay? HoraSeleccionada;
   String? dropdownValue;
@@ -36,7 +36,7 @@ class _AnadirCitasState extends State<AnadirCitas> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFFEB5FF),
         title: const Text(
-          'Añadir Citas',
+          'Editar Citas',
           style: TextStyle(
               fontFamily: "LatoBlack",
               fontSize: 30,
