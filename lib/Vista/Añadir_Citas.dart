@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-void main() {
-  runApp(const VentanaACitas());
-}
-
-class VentanaACitas extends StatelessWidget {
-  const VentanaACitas({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Añadir Citas',
-        home: AnadirCitas());
-  }
-}
-
 class AnadirCitas extends StatefulWidget {
   const AnadirCitas({super.key});
 
@@ -48,7 +32,9 @@ class _AnadirCitasState extends State<AnadirCitas> {
             Icons.arrow_back_rounded,
             size: 38,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(

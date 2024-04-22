@@ -8,7 +8,7 @@
             "name": "proyecto_dentista",
             "request": "launch",
             "type": "dart",
-            "program": "lib/Vista/main.dart"
+            "program": "lib/Vista/MenuPrincipal.dart"
         },
         {
             "name": "proyecto_dentista (profile mode)",

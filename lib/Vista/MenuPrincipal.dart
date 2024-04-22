@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_dentista/Vista/Gestion_Citas.dart';
+import 'package:proyecto_dentista/Vista/Gestion_Clientes.dart';
+import 'package:proyecto_dentista/Vista/Gestion_Material.dart';
+import 'package:proyecto_dentista/Vista/Gestion_Servicios.dart';
 
 void main() {
   runApp(const MenuPrincipal());
@@ -9,10 +13,17 @@ class MenuPrincipal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Menu Principal',
-        home: Ventana());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Menu Principal',
+      home: Ventana(),
+      routes: {
+        '/GestionClientes': (context) => GC(),
+        '/GestionCitas': (context) => GCitas(),
+        '/GestionMaterial': (context) => GM(),
+        '/GestionServicios': (context) => GS(),
+      },
+    );
   }
 }
 
@@ -30,6 +41,22 @@ class _VentanaState extends State<Ventana> {
     setState(() {
       opcionSeleccionada = index;
     });
+
+    switch(index){
+      case 0:
+        Navigator.pushNamed(context, '/GestionClientes');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/GestionCitas');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/GestionMaterial');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/GestionServicios');
+        break;
+    }
+
   }
 
   @override
@@ -87,15 +114,32 @@ class _VentanaState extends State<Ventana> {
           unselectedItemColor: Colors.white,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Image.asset('images/Icono Persona.png', width: 36, height: 36,),
+                icon: Image.asset(
+                  'images/Icono Persona.png',
+                  width: 36,
+                  height: 36,
+                ),
                 label: 'Clientes'),
             BottomNavigationBarItem(
-                icon: Image.asset('images/Icono Citas.png', width: 36, height: 36,), label: 'Citas'),
+                icon: Image.asset(
+                  'images/Icono Citas.png',
+                  width: 36,
+                  height: 36,
+                ),
+                label: 'Citas'),
             BottomNavigationBarItem(
-                icon: Image.asset('images/Icono Material.png', width: 36, height: 36,),
+                icon: Image.asset(
+                  'images/Icono Material.png',
+                  width: 36,
+                  height: 36,
+                ),
                 label: 'Material'),
             BottomNavigationBarItem(
-                icon: Image.asset('images/Icono Servicios.png', width: 36, height: 36,),
+                icon: Image.asset(
+                  'images/Icono Servicios.png',
+                  width: 36,
+                  height: 36,
+                ),
                 label: 'Servicios'),
           ],
           currentIndex: opcionSeleccionada,

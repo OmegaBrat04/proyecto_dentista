@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-void main() {
-  runApp(const VentanaECitas());
-}
-
-class VentanaECitas extends StatelessWidget {
-  const VentanaECitas({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Editar Citas',
-        home: EditarCitas());
-  }
-}
-
 class EditarCitas extends StatefulWidget {
   const EditarCitas({super.key});
 
@@ -48,7 +32,9 @@ class _EditarCitasState extends State<EditarCitas> {
             Icons.arrow_back_rounded,
             size: 38,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(

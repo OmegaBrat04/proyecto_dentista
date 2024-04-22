@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_dentista/Vista/EditarCitas.dart';
 //import 'package:intl/intl.dart';
-
-void main() {
-  runApp(const VentanaLCitas());
-}
-
-class VentanaLCitas extends StatelessWidget {
-  const VentanaLCitas({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Lista de Citas",
-      home: (VistaLCitas()),
-    );
-  }
-}
 
 class VistaLCitas extends StatefulWidget {
   const VistaLCitas({super.key});
@@ -46,7 +30,9 @@ class _VistaLCitasState extends State<VistaLCitas> {
             Icons.arrow_back_rounded,
             size: 38,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: Padding(
@@ -136,7 +122,9 @@ class _VistaLCitasState extends State<VistaLCitas> {
                                   width: 30,
                                   height: 30,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> EditarCitas())); 
+                                },
                               ),
                               IconButton(
                                 icon: Image.asset(
