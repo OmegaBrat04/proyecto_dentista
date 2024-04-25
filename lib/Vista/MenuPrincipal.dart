@@ -3,8 +3,14 @@ import 'package:proyecto_dentista/Vista/Gestion_Citas.dart';
 import 'package:proyecto_dentista/Vista/Gestion_Clientes.dart';
 import 'package:proyecto_dentista/Vista/Gestion_Material.dart';
 import 'package:proyecto_dentista/Vista/Gestion_Servicios.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:proyecto_dentista/firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MenuPrincipal());
 }
 
