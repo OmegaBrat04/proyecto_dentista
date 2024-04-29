@@ -172,6 +172,7 @@ class _ACState extends State<AC> {
                                   ),
                                   const SizedBox(height: 5),
                                   TextFormField(
+                                    keyboardType: TextInputType.phone,
                                     controller: telefonoC,
                                     decoration: InputDecoration(
                                       filled: true,
@@ -219,6 +220,7 @@ class _ACState extends State<AC> {
                                   ),
                                   const SizedBox(height: 5),
                                   TextFormField(
+                                      keyboardType: TextInputType.number,
                                       controller: edadC,
                                       decoration: InputDecoration(
                                         filled: true,

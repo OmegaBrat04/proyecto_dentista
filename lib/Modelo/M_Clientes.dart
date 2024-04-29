@@ -21,4 +21,14 @@ class Clientes {
       'sexo': sexo,
     };
   }
+
+  factory Clientes.fromMap(Map<String, dynamic> map) {
+    return Clientes(
+      nombres: map['nombres'],
+      apellidos: map['apellidos'],
+      telefono: map['telefono'],
+      edad: map['edad'],
+      sexo: map['sexo'],
+    );
+  }
 }

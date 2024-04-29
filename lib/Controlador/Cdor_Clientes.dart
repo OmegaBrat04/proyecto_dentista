@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:proyecto_dentista/Modelo/M_Clientes.dart';
 
 class Cdor_Clientes {
@@ -16,5 +15,11 @@ class Cdor_Clientes {
 
     await db.collection('Clientes').add(nuevoCliente.toMap());
   }
-  
+
+  Future<List<Clientes>> obtenerClientes() async {
+    QuerySnapshot querySnapshot = await db.collection('Clientes').get();
+    return querySnapshot.docs
+        .map((doc) => Clientes.fromMap(doc.data() as Map<String, dynamic>))
+        .toList();
+  }
 }

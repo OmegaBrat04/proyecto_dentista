@@ -22,4 +22,5 @@ class Citas{
       'Monto': Monto,
     };
   }
+
 }

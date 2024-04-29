@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_dentista/Services/AlertDialogService.dart';
+import 'package:proyecto_dentista/Services/FormRequest.dart';
+import 'package:proyecto_dentista/Controlador/Cdor_Servicios.dart';
 
 class AS extends StatefulWidget {
   const AS({super.key});
@@ -8,6 +11,10 @@ class AS extends StatefulWidget {
 }
 
 class _ASState extends State<AS> {
+   TextEditingController servicioController = TextEditingController();
+  final keyF = GlobalKey<FormState>();
+  AlertDialogService alerta = AlertDialogService();
+  Cdor_Servicios controlador = Cdor_Servicios();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +28,7 @@ class _ASState extends State<AS> {
         title: const Text(
           "Añadir Servicios",
           style: TextStyle(
-            fontFamily:"LatoBlack",
+              fontFamily: "LatoBlack",
               fontSize: 30.0,
               color: Color.fromRGBO(0, 0, 0, 1),
               fontWeight: FontWeight.bold),
@@ -41,49 +48,70 @@ class _ASState extends State<AS> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 100),
-                      const Text(
-                        "Servicio",
-                        style: TextStyle(
-                          fontFamily:"Lato",
-                          fontSize: 16,
-                          color: Color.fromRGBO(0, 0, 0, 1),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      TextField(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: const Color.fromARGB(255, 254, 254, 223),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 15,
-                            horizontal: 10,
-                          ),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(20.0),
+                  child: Form(
+                    key: keyF,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 100),
+                        const Text(
+                          "Servicio",
+                          style: TextStyle(
+                            fontFamily: "Lato",
+                            fontSize: 16,
+                            color: Color.fromRGBO(0, 0, 0, 1),
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 5),
+                        TextFormField(
+                          keyboardType: TextInputType.text,
+                          controller: servicioController,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: const Color.fromARGB(255, 254, 254, 223),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 15,
+                              horizontal: 10,
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                          ),
+                          validator: (value) {
+                            return Validador.validarTexto(value);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 300),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
-                      // Acción para el botón "Guardar"
+                    onPressed: () async {
+                      if (keyF.currentState!.validate()) {
+                        String servicio = servicioController.text;
+                        await controlador.agregarServicio(servicio).then((_) {
+                          alerta.mostrarAlertaExitosa(context).then((_) {
+                            Navigator.pop(context);
+                          });
+                        }).catchError((error) {
+                          alerta.mostrarAlertaError(context,
+                              "La informacion no se logro guardar correctamente");
+                        });
+                      } else {
+                        alerta.mostrarAlertaError(context,
+                            "Asegurese de llenar todos los campos correctamente.");
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 85, 113, 255),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      elevation: 3, 
+                      elevation: 3,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -98,7 +126,7 @@ class _ASState extends State<AS> {
                         const Text(
                           'GUARDAR',
                           style: TextStyle(
-                            fontFamily:"LatoBlack",
+                            fontFamily: "LatoBlack",
                             color: Color.fromARGB(255, 254, 254, 223),
                             fontSize: 16,
                           ),
