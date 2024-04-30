@@ -6,13 +6,15 @@ class Cdor_Citas {
 
   Future<void> agregarCita(String cliente, String servicio, String fecha,
       String hora, double monto) async {
+        var id = db.collection('Citas').doc().id;
     Citas nuevaCita = Citas(
+        id: id,
         Cliente: cliente,
         Servicio: servicio,
         Fecha: fecha,
         Hora: hora,
         Monto: monto);
 
-    await db.collection('Citas').add(nuevaCita.toMap());
+    await db.collection('Citas').doc(id).set(nuevaCita.toMap());
   }
 }

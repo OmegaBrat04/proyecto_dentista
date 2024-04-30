@@ -1,5 +1,6 @@
 class Citas{
 
+  String id;
   String Cliente;
   String Servicio;
   String Fecha;
@@ -7,7 +8,9 @@ class Citas{
   double Monto;
 
   Citas(
-      {required this.Cliente,
+      {
+        required this.id,
+        required this.Cliente,
       required this.Servicio,
       required this.Fecha,
       required this.Hora,
@@ -15,6 +18,7 @@ class Citas{
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'Cliente': Cliente,
       'Servicio': Servicio,
       'Fecha': Fecha,

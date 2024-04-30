@@ -1,4 +1,5 @@
 class Clientes {
+  String id;
   String nombres;
   String apellidos;
   String telefono;
@@ -6,7 +7,8 @@ class Clientes {
   String sexo;
 
   Clientes(
-      {required this.nombres,
+      {required this.id,
+      required this.nombres,
       required this.apellidos,
       required this.telefono,
       required this.edad,
@@ -14,6 +16,7 @@ class Clientes {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'nombres': nombres,
       'apellidos': apellidos,
       'telefono': telefono,
@@ -22,8 +25,9 @@ class Clientes {
     };
   }
 
-  factory Clientes.fromMap(Map<String, dynamic> map) {
+  factory Clientes.fromMap(String id, Map<String, dynamic> map) {
     return Clientes(
+      id: id,
       nombres: map['nombres'],
       apellidos: map['apellidos'],
       telefono: map['telefono'],

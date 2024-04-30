@@ -43,7 +43,7 @@ class _AnadirCitasState extends State<AnadirCitas> {
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            backgroundColor: const Color(0xFFFEB5FF),
+            backgroundColor:  Color(0xFFFEB5FF),
             body: Center(
               child: CircularProgressIndicator(),
             ),

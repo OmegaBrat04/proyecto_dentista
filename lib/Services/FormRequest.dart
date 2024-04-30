@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
 
 class Validador {
@@ -43,12 +43,12 @@ class Validador {
     return 'Por favor ingrese una hora';
   }
   try {
-    final PartesTiempo = valor.split(':');
-    if (PartesTiempo.length != 2) {
+    final partesTiempo = valor.split(':');
+    if (partesTiempo.length != 2) {
       return 'Por favor ingrese una hora válida';
     }
-    final hora = int.parse(PartesTiempo[0]);
-    final minutosPeriodo = PartesTiempo[1].split(' ');
+    final hora = int.parse(partesTiempo[0]);
+    final minutosPeriodo = partesTiempo[1].split(' ');
     if (minutosPeriodo.length != 2) {
       return 'Por favor ingrese una hora válida';
     }

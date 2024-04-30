@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto_dentista/Controlador/Cdor_Servicios.dart';
 
 class CS extends StatefulWidget {
   const CS({Key? key}) : super(key: key);
@@ -8,12 +9,12 @@ class CS extends StatefulWidget {
 }
 
 class _CSState extends State<CS> {
+  Cdor_Servicios controlador = Cdor_Servicios();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          
           onPressed: () {
             Navigator.pop(context);
           },
@@ -34,40 +35,60 @@ class _CSState extends State<CS> {
       body: Stack(
         children: [
           Container(
-            color: const Color(0xFFFEB5FF), // Fondo con color deseado
+            color: const Color(0xFFFEB5FF),
             width: double.infinity,
             height: double.infinity,
           ),
           Padding(
             padding: const EdgeInsets.all(25),
             child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFBDE3FF), // Color del Container
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 3, color: const Color(0xFF5571FF)),
-              ),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text("Servicio $index"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Image.asset(
-                            'images/Eliminar Icono.png',
-                            width: 30,
-                            height: 30,
-                          ),
-                          onPressed: () {},
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFBDE3FF),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 3, color: const Color(0xFF5571FF)),
+                ),
+                child: FutureBuilder(
+                    future: controlador.listarServicios(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              title: Text(
+                                snapshot.data?[index].servicio ?? "",
+                                style: const TextStyle(
+                                  fontFamily: "Lato",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Image.asset(
+                                      'images/Eliminar Icono.png',
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    onPressed: () async {
+                                     await  controlador.eliminarServicio(
+                                          snapshot.data![index].id);
+                                      setState(() {});
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }))),
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_dentista/Vista/Editar_Clientes.dart';
+import 'package:proyecto_dentista/Controlador/Cdor_Clientes.dart';
 
 class CC extends StatefulWidget {
   const CC({Key? key}) : super(key: key);
@@ -9,6 +10,9 @@ class CC extends StatefulWidget {
 }
 
 class _CCState extends State<CC> {
+  Cdor_Clientes controlador = Cdor_Clientes();
+  String? nombreCompleto;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,43 +45,69 @@ class _CCState extends State<CC> {
           Padding(
             padding: const EdgeInsets.all(25),
             child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xFFBDE3FF), // Color del Container
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(width: 3, color: const Color(0xFF5571FF)),
-              ),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text("Cliente $index"),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Image.asset(
-                            'images/Icono Editar.png',
-                            width: 30,
-                            height: 30,
-                          ),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> EC())); 
+                decoration: BoxDecoration(
+                  color: const Color(0xFFBDE3FF), // Color del Container
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(width: 3, color: const Color(0xFF5571FF)),
+                ),
+                child: FutureBuilder(
+                    future: controlador.listarClientes(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data?.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            nombreCompleto =
+                                "${snapshot.data![index].nombres} ${snapshot.data![index].apellidos}";
+                            return ListTile(
+                              title: Text(
+                                nombreCompleto ?? "",
+                                style: const TextStyle(
+                                  fontFamily: "Lato",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Image.asset(
+                                      'images/Icono Editar.png',
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const EC()));
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Image.asset(
+                                      'images/Eliminar Icono.png',
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    onPressed: () async {
+                                      await controlador.eliminarCliente(
+                                          snapshot.data![index].id);
+                                      setState(() {});
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
                           },
-                        ),
-                        IconButton(
-                          icon: Image.asset(
-                            'images/Eliminar Icono.png',
-                            width: 30,
-                            height: 30,
-                          ),
-                          onPressed: () {},
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }))),
           ),
         ],
       ),
