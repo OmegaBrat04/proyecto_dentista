@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_dentista/Vista/Editar_Clientes.dart';
 import 'package:proyecto_dentista/Controlador/Cdor_Clientes.dart';
+import 'package:proyecto_dentista/Services/AlertDialogService.dart';
 
 class CC extends StatefulWidget {
   const CC({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class CC extends StatefulWidget {
 }
 
 class _CCState extends State<CC> {
+  AlertDialogService alerta = AlertDialogService();
   Cdor_Clientes controlador = Cdor_Clientes();
   String? nombreCompleto;
 
@@ -92,9 +94,13 @@ class _CCState extends State<CC> {
                                       height: 30,
                                     ),
                                     onPressed: () async {
-                                      await controlador.eliminarCliente(
-                                          snapshot.data![index].id);
-                                      setState(() {});
+                                      final confirmar = await alerta
+                                          .advertenciaEliminar(context);
+                                      if (confirmar == true) {
+                                        await controlador.eliminarCliente(
+                                            snapshot.data![index].id);
+                                        setState(() {});
+                                      }
                                     },
                                   )
                                 ],

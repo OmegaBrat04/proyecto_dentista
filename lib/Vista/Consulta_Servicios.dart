@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto_dentista/Controlador/Cdor_Servicios.dart';
+import 'package:proyecto_dentista/Services/AlertDialogService.dart';
 
 class CS extends StatefulWidget {
   const CS({Key? key}) : super(key: key);
@@ -10,6 +11,8 @@ class CS extends StatefulWidget {
 
 class _CSState extends State<CS> {
   Cdor_Servicios controlador = Cdor_Servicios();
+  AlertDialogService alerta = AlertDialogService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,9 +76,13 @@ class _CSState extends State<CS> {
                                       height: 30,
                                     ),
                                     onPressed: () async {
-                                     await  controlador.eliminarServicio(
-                                          snapshot.data![index].id);
-                                      setState(() {});
+                                      final confirmar = await alerta
+                                          .advertenciaEliminar(context);
+                                      if (confirmar == true) {
+                                        await controlador.eliminarServicio(
+                                            snapshot.data![index].id);
+                                        setState(() {});
+                                      }
                                     },
                                   )
                                 ],
