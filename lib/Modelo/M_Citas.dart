@@ -1,16 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Citas{
 
   String id;
   String Cliente;
   String Servicio;
-  String Fecha;
+  Timestamp Fecha;
   String Hora;
   double Monto;
 
   Citas(
       {
-        required this.id,
-        required this.Cliente,
+      required this.id,
+      required this.Cliente,
       required this.Servicio,
       required this.Fecha,
       required this.Hora,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_dentista/Controlador/Cdor_Citas.dart';
@@ -43,7 +44,7 @@ class _AnadirCitasState extends State<AnadirCitas> {
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            backgroundColor:  Color(0xFFFEB5FF),
+            backgroundColor: Color(0xFFFEB5FF),
             body: Center(
               child: CircularProgressIndicator(),
             ),
@@ -121,8 +122,8 @@ class _AnadirCitasState extends State<AnadirCitas> {
                           value: dropdownValue,
                           items: clientes.map<DropdownMenuItem<String>>(
                               (Clientes cliente) {
-                                nombreCompleto =
-                                    '${cliente.nombres} ${cliente.apellidos}';
+                            nombreCompleto =
+                                '${cliente.nombres} ${cliente.apellidos}';
                             return DropdownMenuItem<String>(
                               value: nombreCompleto,
                               child: Text(
@@ -336,8 +337,12 @@ class _AnadirCitasState extends State<AnadirCitas> {
                           onPressed: () async {
                             if (keyF.currentState!.validate()) {
                               double monto = double.parse(montoController.text);
-                              String fechaS = DateFormat('yyyy-MM-dd')
-                                  .format(DateTime.parse(fechaController.text));
+
+                              DateTime fechaLocal =
+                                  DateTime.parse(fechaController.text);
+                              DateTime fechaUtc = DateTime.utc(fechaLocal.year,
+                                  fechaLocal.month, fechaLocal.day, 12);
+                              Timestamp fechaS = Timestamp.fromDate(fechaUtc);
                               String horaS = horaController.text;
 
                               await controlador

@@ -4,7 +4,7 @@ import 'package:proyecto_dentista/Modelo/M_Citas.dart';
 class Cdor_Citas {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<void> agregarCita(String cliente, String servicio, String fecha,
+  Future<void> agregarCita(String cliente, String servicio, Timestamp fecha,
       String hora, double monto) async {
         var id = db.collection('Citas').doc().id;
     Citas nuevaCita = Citas(
@@ -17,4 +17,10 @@ class Cdor_Citas {
 
     await db.collection('Citas').doc(id).set(nuevaCita.toMap());
   }
+
+  /*Future<List<Citas>> ListarCitas () async {
+
+
+
+  }*/
 }
