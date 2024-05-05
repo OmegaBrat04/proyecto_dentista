@@ -63,7 +63,7 @@ class _GCitasState extends State<GCitas> {
                       const SizedBox(
                           width: 50), 
                       const Text(
-                        'Añadir Citas',
+                        'Registrar Citas',
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,

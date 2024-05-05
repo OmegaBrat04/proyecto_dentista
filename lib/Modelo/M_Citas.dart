@@ -29,4 +29,14 @@ class Citas{
     };
   }
 
+  factory Citas.fromMap(String id, Map<String, dynamic> map) {
+    return Citas(
+        id: id,
+        Cliente: map['Cliente'],
+        Servicio: map['Servicio'],
+        Fecha: map['Fecha'],
+        Hora: map['Hora'],
+        Monto: map['Monto']);
+  }
+
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:proyecto_dentista/Controlador/Cdor_Citas.dart';
+import 'package:proyecto_dentista/Modelo/M_Citas.dart';
 import 'package:proyecto_dentista/Modelo/M_Clientes.dart';
 import 'package:proyecto_dentista/Modelo/M_Servicios.dart';
 import 'package:proyecto_dentista/Services/AlertDialogService.dart';
@@ -9,14 +10,15 @@ import 'package:proyecto_dentista/Services/FormRequest.dart';
 import 'package:proyecto_dentista/Controlador/Cdor_Clientes.dart';
 import 'package:proyecto_dentista/Controlador/Cdor_Servicios.dart';
 
-class AnadirCitas extends StatefulWidget {
-  const AnadirCitas({super.key});
+class EditarCitas extends StatefulWidget {
+  final Citas? cita;
+  const EditarCitas({super.key, this.cita});
 
   @override
-  State<AnadirCitas> createState() => _AnadirCitasState();
+  State<EditarCitas> createState() => _AnadirCitasState();
 }
 
-class _AnadirCitasState extends State<AnadirCitas> {
+class _AnadirCitasState extends State<EditarCitas> {
   Validador validador = Validador();
   final dialogosAlerta = AlertDialogService();
   Cdor_Citas controlador = Cdor_Citas();
@@ -34,9 +36,22 @@ class _AnadirCitasState extends State<AnadirCitas> {
   final horaController = TextEditingController();
   final montoController = TextEditingController();
 
+
+  @override
+  void initState(){
+    super.initState();
+    if(widget.cita != null){
+      dropdownValue = widget.cita!.Cliente;
+      dropdownValue2 = widget.cita!.Servicio;
+      fechaController.text = DateFormat('yyyy-MM-dd').format(widget.cita!.Fecha.toDate());
+      horaController.text = widget.cita!.Hora;
+      montoController.text = widget.cita!.Monto.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    fechaController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    //fechaController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
     return FutureBuilder<List<dynamic>>(
       future: Future.wait([
         controladorClientes.obtenerClientes(),
@@ -321,6 +336,8 @@ class _AnadirCitasState extends State<AnadirCitas> {
                               elevation: 6),
                           onPressed: () async {
                             if (keyF.currentState!.validate()) {
+                              String cliente = dropdownValue!;
+                              String servicio = dropdownValue2!;
                               double monto = double.parse(montoController.text);
 
                               DateTime fechaLocal =
@@ -331,13 +348,13 @@ class _AnadirCitasState extends State<AnadirCitas> {
                               String horaS = horaController.text;
 
                               await controlador
-                                  .agregarCita(dropdownValue!, dropdownValue2!,
+                                  .modificarCita(widget.cita!.id, cliente, servicio,
                                       fechaS, horaS, monto)
                                   .then((_) {
                                 dialogosAlerta
                                     .mostrarAlertaExitosa(context)
                                     .then((_) {
-                                  Navigator.pop(context);
+                                  Navigator.pop(context, true);
                                 });
                               }).catchError((error) {
                                 dialogosAlerta.mostrarAlertaError(context,

@@ -39,4 +39,18 @@ class Cdor_Clientes {
   Future<void> eliminarCliente(String id) async {
     await db.collection('Clientes').doc(id).delete();
   }
+
+
+  Future<void> modificarCliente(String id, String nombres, String apellidos, String telefono,
+      int edad, String sexo) async {
+    Clientes clienteModificado = Clientes(
+        id: id,
+        nombres: nombres,
+        apellidos: apellidos,
+        telefono: telefono,
+        edad: edad,
+        sexo: sexo);
+
+    await db.collection('Clientes').doc(id).update(clienteModificado.toMap());
+  }
 }

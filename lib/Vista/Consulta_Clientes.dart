@@ -79,12 +79,17 @@ class _CCState extends State<CC> {
                                       width: 30,
                                       height: 30,
                                     ),
-                                    onPressed: () {
-                                      Navigator.push(
+                                    onPressed: () async {
+                                      final resultado = await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const EC()));
+                                              builder: (context) => EC(
+                                                    cliente:
+                                                        snapshot.data![index],
+                                                  )));
+                                      if (resultado == true) {
+                                        setState(() {});
+                                      }
                                     },
                                   ),
                                   IconButton(

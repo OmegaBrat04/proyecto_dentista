@@ -16,4 +16,13 @@ class Material {
       'precioU': precioU,
     };
   }
+
+  factory Material.fromMap(String id, Map<String, dynamic> map) {
+    return Material(
+      id: id,
+      nombre: map['nombre'],
+      cantidad: map['cantidad'],
+      precioU: map['precioU'],
+    );
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proyecto_dentista/Vista/EditarCitas.dart';
-//import 'package:intl/intl.dart';
+import 'package:proyecto_dentista/Vista/Editar_Citas.dart';
+import 'package:proyecto_dentista/Controlador/Cdor_Citas.dart';
+import 'package:proyecto_dentista/Services/AlertDialogService.dart';
 
 class VistaLCitas extends StatefulWidget {
   const VistaLCitas({super.key});
@@ -11,6 +12,8 @@ class VistaLCitas extends StatefulWidget {
 
 class _VistaLCitasState extends State<VistaLCitas> {
   String? dropdownValue;
+  AlertDialogService alerta = AlertDialogService();
+  Cdor_Citas controlador = Cdor_Citas();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +73,7 @@ class _VistaLCitasState extends State<VistaLCitas> {
                 value: dropdownValue,
                 items: const <DropdownMenuItem<String>>[
                   DropdownMenuItem<String>(
-                      value: "Opcion 1",
+                      value: "Diario",
                       child: Text(
                         "Diario",
                         style: TextStyle(
@@ -79,9 +82,18 @@ class _VistaLCitasState extends State<VistaLCitas> {
                         ),
                       )),
                   DropdownMenuItem<String>(
-                      value: "Opcion 2",
+                      value: "Semanal",
                       child: Text(
                         "Semanal",
+                        style: TextStyle(
+                          fontFamily: "Lato",
+                          fontSize: 16,
+                        ),
+                      )),
+                  DropdownMenuItem<String>(
+                      value: "Mensual",
+                      child: Text(
+                        "Mensual",
                         style: TextStyle(
                           fontFamily: "Lato",
                           fontSize: 16,
@@ -108,66 +120,115 @@ class _VistaLCitasState extends State<VistaLCitas> {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
                             width: 3, color: const Color(0xFF5571FF))),
-                    child: ListView.builder(
-                      itemCount: 5,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          title: Text("Cita $index"),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: Image.asset(
-                                  'images/Icono Editar.png',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> EditarCitas())); 
-                                },
-                              ),
-                              IconButton(
-                                icon: Image.asset(
-                                  'images/Eliminar Icono.png',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                                onPressed: () {},
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ))),
+                    child: FutureBuilder(
+                        future: controlador.listarCitas(dropdownValue ?? ''),
+                        builder: (((context, snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              itemCount: snapshot.data?.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ListTile(
+                                  title: Text(snapshot.data![index].Cliente,
+                                      style: const TextStyle(
+                                        fontFamily: "Lato",
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      )),
+                                  subtitle: Text(
+                                      '${snapshot.data![index].Fecha.toDate().toString().split(' ')[0]} ${snapshot.data![index].Hora}'),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        icon: Image.asset(
+                                          'images/Icono Editar.png',
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        onPressed: () async {
+                                          final resultado =
+                                              await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditarCitas(
+                                                            cita: snapshot
+                                                                .data![index],
+                                                          )));
+                                          if (resultado == true) {
+                                            setState(() {});
+                                          }
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Image.asset(
+                                          'images/Eliminar Icono.png',
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        onPressed: () async {
+                                          final confirmar = await alerta
+                                              .advertenciaEliminar(context);
+                                          if (confirmar == true) {
+                                            await controlador.eliminarCita(
+                                                snapshot.data![index].id);
+                                            setState(() {});
+                                          }
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                        }))))),
             const SizedBox(
               height: 10,
             ),
             const Row(
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Ganancia Generada",
-                      style: TextStyle(
-                          fontFamily: "Lato",
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ]),
-              const SizedBox(
-                height: 6,
-              ),
-              TextField(
-                readOnly: true,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: const Color(0xFFFEFEDF),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(20),
+                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Ganancia Generada",
+                    style: TextStyle(
+                        fontFamily: "Lato",
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                ),
-              ),
+                ]),
+            const SizedBox(
+              height: 6,
+            ),
+            FutureBuilder<double>(
+                future: controlador.sumaMontos(dropdownValue ?? ''),
+                builder:
+                    (BuildContext context, AsyncSnapshot<double> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return TextField(
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFFFEFEDF),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 10),
+                      ),
+                      controller:
+                          TextEditingController(text: '${snapshot.data}'),
+                    );
+                  }
+                })
           ],
         ),
       ),

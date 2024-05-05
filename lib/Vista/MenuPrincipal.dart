@@ -116,8 +116,9 @@ class _VentanaState extends State<Ventana> {
               ],
             )),
         bottomNavigationBar: BottomNavigationBar(
-          //backgroundColor: Color(0xFF5571FF),
+          type: BottomNavigationBarType.fixed,
           unselectedItemColor: Colors.white,
+          selectedItemColor: Colors.white,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Image.asset(
@@ -150,6 +151,9 @@ class _VentanaState extends State<Ventana> {
           ],
           currentIndex: opcionSeleccionada,
           onTap: botonPulsado,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+
         ),
       ),
     );
