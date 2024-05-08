@@ -22,6 +22,10 @@ class Cdor_Citas {
   }
 
   Future<List<Citas>> listarCitas(String periodo) async {
+
+    if(periodo == null || periodo.isEmpty){
+      return List<Citas>.empty();
+    }
     QuerySnapshot querySnapshot = await db.collection('Citas').get();
     List<Citas> citas = querySnapshot.docs
         .map((doc) => Citas.fromMap(doc.id, doc.data() as Map<String, dynamic>))
@@ -56,6 +60,10 @@ class Cdor_Citas {
   }
 
   Future<double> sumaMontos(String periodo) async {
+
+    if(periodo == null || periodo.isEmpty){
+      return 0;
+    }
     QuerySnapshot querySnapshot = await db.collection('Citas').get();
     List<Citas> citas = querySnapshot.docs
         .map((doc) => Citas.fromMap(doc.id, doc.data() as Map<String, dynamic>))

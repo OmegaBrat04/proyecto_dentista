@@ -38,11 +38,22 @@ class _GCState extends State<GC> {
             height: double.infinity,
           ),
           Padding(
-            padding: const EdgeInsets.all(34.0),
+            padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 50),
              child: Center(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                  width: 180,
+                  height: 180,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/Icono Persona.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 125),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>  AC()));
@@ -57,8 +68,8 @@ class _GCState extends State<GC> {
                     children: [
                       Image.asset(
                         'images/Prototipo Proyecto 4to Semestre Final.png', 
-                        width: 40,
-                        height: 40, 
+                        width: 60,
+                        height: 60, 
                       ),
                       const SizedBox(
                           width: 40), 
@@ -67,7 +78,7 @@ class _GCState extends State<GC> {
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -88,8 +99,8 @@ class _GCState extends State<GC> {
                     children: [
                       Image.asset(
                         'images/Prototipo Proyecto 4to Semestre Final (1).png', 
-                        width: 40,
-                        height: 40,
+                        width: 60,
+                        height: 60,
                       ),
                       const SizedBox(
                           width: 30),
@@ -98,7 +109,7 @@ class _GCState extends State<GC> {
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                     ],

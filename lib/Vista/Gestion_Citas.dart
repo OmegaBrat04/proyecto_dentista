@@ -38,11 +38,23 @@ class _GCitasState extends State<GCitas> {
             height: double.infinity,
           ),
           Padding(
-            padding: const EdgeInsets.all(34.0),
+            padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 50),
              child: Center(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+
+                Container(
+                  width: 180,
+                  height: 180,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/Icono Citas.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 125),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> AnadirCitas()));
@@ -57,17 +69,18 @@ class _GCitasState extends State<GCitas> {
                     children: [
                       Image.asset(
                         'images/Prototipo Proyecto 4to Semestre Final.png', 
-                        width: 40,
-                        height: 40, 
+                        width: 60,
+                        height: 60, 
                       ),
                       const SizedBox(
-                          width: 50), 
+                          width: 30), 
                       const Text(
                         'Registrar Citas',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -88,17 +101,17 @@ class _GCitasState extends State<GCitas> {
                     children: [
                       Image.asset(
                         'images/Prototipo Proyecto 4to Semestre Final (1).png', 
-                        width: 40,
-                        height: 40,
+                        width: 60,
+                        height: 60,
                       ),
                       const SizedBox(
-                          width: 35),
+                          width: 30),
                       const Text(
                         'Consultar Citas',
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                     ],

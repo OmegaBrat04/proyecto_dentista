@@ -39,11 +39,22 @@ class _GMState extends State<GM> {
             height: double.infinity,
           ),
           Padding(
-            padding: const EdgeInsets.all(34.0),
+            padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 50),
              child: Center(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                Container(
+                  width: 180,
+                  height: 180,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/Icono Material.png'),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 125),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>  AM()));
@@ -58,17 +69,17 @@ class _GMState extends State<GM> {
                     children: [
                       Image.asset(
                         'images/Prototipo Proyecto 4to Semestre Final.png', 
-                        width: 40,
-                        height: 40, 
+                        width: 60,
+                        height: 60, 
                       ),
                       const SizedBox(
-                          width: 10), 
+                          width: 25), 
                       const Text(
-                        'Añadir Material Comprado',
+                        'Añadir Material',
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                     ],
@@ -89,17 +100,17 @@ class _GMState extends State<GM> {
                     children: [
                       Image.asset(
                         'images/Prototipo Proyecto 4to Semestre Final (1).png', 
-                        width: 40,
-                        height: 40,
+                        width: 60,
+                        height: 60,
                       ),
                       const SizedBox(
-                          width: 30),
+                          width: 20),
                       const Text(
                         'Consultar Material',
                         style: TextStyle(
                           fontFamily:"Lato",
                           color: Colors.black,
-                          fontSize: 18,
+                          fontSize: 20,
                         ),
                       ),
                     ],
