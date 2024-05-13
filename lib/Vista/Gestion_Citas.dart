@@ -75,7 +75,7 @@ class _GCitasState extends State<GCitas> {
                       const SizedBox(
                           width: 30), 
                       const Text(
-                        'Registrar Citas',
+                        'Cobrar Citas',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily:"Lato",

@@ -21,7 +21,8 @@ class Cdor_Clientes {
   Future<List<Clientes>> obtenerClientes() async {
     QuerySnapshot querySnapshot = await db.collection('Clientes').get();
     return querySnapshot.docs
-        .map<Clientes>((doc) => Clientes.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+        .map<Clientes>((doc) =>
+            Clientes.fromMap(doc.id, doc.data() as Map<String, dynamic>))
         .toList();
   }
 
@@ -31,7 +32,8 @@ class Cdor_Clientes {
     QuerySnapshot queryClientes = await clientesRef.get();
 
     queryClientes.docs.forEach((cliente) {
-      clientes.add(Clientes.fromMap(cliente.id, cliente.data() as Map<String, dynamic>));
+      clientes.add(
+          Clientes.fromMap(cliente.id, cliente.data() as Map<String, dynamic>));
     });
     return clientes;
   }
@@ -40,9 +42,8 @@ class Cdor_Clientes {
     await db.collection('Clientes').doc(id).delete();
   }
 
-
-  Future<void> modificarCliente(String id, String nombres, String apellidos, String telefono,
-      int edad, String sexo) async {
+  Future<void> modificarCliente(String id, String nombres, String apellidos,
+      String telefono, int edad, String sexo) async {
     Clientes clienteModificado = Clientes(
         id: id,
         nombres: nombres,
@@ -52,5 +53,14 @@ class Cdor_Clientes {
         sexo: sexo);
 
     await db.collection('Clientes').doc(id).update(clienteModificado.toMap());
+  }
+
+  Future<List<String>> listarNombresClientes() async {
+    QuerySnapshot querySnapshot = await db.collection('Clientes').get();
+    List<String> nombresClientes = querySnapshot.docs
+        .map((doc) =>
+            '${(doc.data() as Map<String, dynamic>)?['nombres']} ${(doc.data() as Map<String, dynamic>)?['apellidos']}')
+        .toList();
+    return nombresClientes;
   }
 }

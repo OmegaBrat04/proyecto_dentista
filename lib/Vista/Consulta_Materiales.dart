@@ -28,7 +28,7 @@ class _VistaLMaterialesState extends State<VistaLMateriales> {
 
   void actualizarGastoTotal() async {
     double gastoTotal = await controlador.actualizarGastoTotal(contador);
-    GastoController.text = gastoTotal.toString();
+    GastoController.text = '\$' + gastoTotal.toString();
   }
 
   @override
@@ -152,7 +152,7 @@ class _VistaLMaterialesState extends State<VistaLMateriales> {
                               controladorCitas
                                   .calcularGananciaActualizada(dropdownValue!)
                                   .then((gananciaActualizada) {
-                                GananciaController.text =
+                                GananciaController.text = '\$'+
                                     gananciaActualizada.toString();
                               });
                             }
@@ -165,10 +165,8 @@ class _VistaLMaterialesState extends State<VistaLMateriales> {
                                         fontFamily: "Lato",
                                         fontSize: 16,
                                       )),
-                                  subtitle: Text(
-                                    (snapshot.data![index].precioU *
-                                            contador[index])
-                                        .toString(),
+                                  subtitle: Text('\$${snapshot.data![index].precioU *
+                                            contador[index]}',
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -238,14 +236,14 @@ class _VistaLMaterialesState extends State<VistaLMateriales> {
                 const Row(
                   children: [
                     Text(
-                      "Ganancia Actualizada",
+                      "Ganancia Actual",
                       style: TextStyle(
                         fontFamily: "Lato",
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 70),
                     Text(
                       "Gasto Total",
                       style: TextStyle(

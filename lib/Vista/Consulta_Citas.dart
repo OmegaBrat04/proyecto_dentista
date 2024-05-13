@@ -224,8 +224,8 @@ class _VistaLCitasState extends State<VistaLCitas> {
                         contentPadding:
                             const EdgeInsets.symmetric(horizontal: 10),
                       ),
-                      controller:
-                          TextEditingController(text: '${snapshot.data}'),
+                      controller: TextEditingController(
+                          text: '\$' + '${snapshot.data}'),
                     );
                   }
                 })

@@ -26,13 +26,14 @@ class _AnadirCitasState extends State<AnadirCitas> {
   final keyF = GlobalKey<FormState>();
   DateTime? FechaSeleccionada;
   TimeOfDay? HoraSeleccionada;
-  String? dropdownValue;
+  String? ClienteSeleccionado;
   String? dropdownValue2;
   String? nombreCompleto;
 
   final fechaController = TextEditingController();
   final horaController = TextEditingController();
   final montoController = TextEditingController();
+  TextEditingController nombreController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class _AnadirCitasState extends State<AnadirCitas> {
             appBar: AppBar(
               backgroundColor: const Color(0xFFFEB5FF),
               title: const Text(
-                'Registrar Citas',
+                'Cobrar Citas',
                 style: TextStyle(
                     fontFamily: "LatoBlack",
                     fontSize: 30,
@@ -108,43 +109,61 @@ class _AnadirCitasState extends State<AnadirCitas> {
                         height: 6,
                       ),
                       Container(
-                        height: 60,
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFEFEDF),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: DropdownButtonFormField<String>(
-                          iconSize: 45,
-                          isExpanded: true,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
+                          height: 60,
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFEFEDF),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          value: dropdownValue,
-                          items: clientes.map<DropdownMenuItem<String>>(
-                              (Clientes cliente) {
-                            nombreCompleto =
-                                '${cliente.nombres} ${cliente.apellidos}';
-                            return DropdownMenuItem<String>(
-                              value: nombreCompleto,
-                              child: Text(
-                                nombreCompleto!,
-                                style: const TextStyle(
-                                  fontFamily: "Lato",
-                                  fontSize: 16,
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              dropdownValue = value;
-                            });
-                          },
-                          validator: (value) =>
-                              Validador.validarDropdown(value),
-                        ),
-                      ),
+                          child: Autocomplete<String>(
+                            optionsBuilder:
+                                (TextEditingValue textEditingValue) {
+                              if (textEditingValue.text == '') {
+                                return const Iterable<String>.empty();
+                              }
+                              return clientes
+                                  .map((cliente) =>
+                                      '${cliente.nombres} ${cliente.apellidos}')
+                                  .where((String option) {
+                                return option.toLowerCase().startsWith(
+                                    textEditingValue.text.toLowerCase());
+                              });
+                            },
+                            onSelected: (String option) {
+                              setState(() {
+                                ClienteSeleccionado = option;
+                              });
+                            },
+                            fieldViewBuilder: (context, textEditingController,
+                                focusNode, onFieldSubmitted) {
+                              textEditingController.text =
+                                  ClienteSeleccionado ?? '';
+                              return FutureBuilder<String?>(
+                                future: Validador.validarAutocomplete(
+                                    textEditingController.text),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String?> snapshot) {
+                                  return TextFormField(
+                                    controller: textEditingController,
+                                    focusNode: focusNode,
+                                    decoration: const InputDecoration(
+                                        hintText: 'Buscar Cliente',
+                                        hintStyle: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                        ),
+                                        border: InputBorder.none,
+                                        prefixIcon: Icon(
+                                          Icons.search,
+                                          color: Color(0xFF5571FF),
+                                          size: 35,
+                                        )),
+                                    validator: (value) => snapshot.data,
+                                  );
+                                },
+                              );
+                            },
+                          )),
                       const SizedBox(
                         height: 25,
                       ),
@@ -194,8 +213,6 @@ class _AnadirCitasState extends State<AnadirCitas> {
                               dropdownValue2 = value;
                             });
                           },
-                          validator: (value) =>
-                              Validador.validarDropdown(value),
                         ),
                       ),
                       const SizedBox(
@@ -323,16 +340,15 @@ class _AnadirCitasState extends State<AnadirCitas> {
                             if (keyF.currentState!.validate()) {
                               double monto = double.parse(montoController.text);
 
-                              DateTime fechaLocal =
-                                  DateTime.now();
+                              DateTime fechaLocal = DateTime.now();
                               DateTime fechaUtc = DateTime.utc(fechaLocal.year,
                                   fechaLocal.month, fechaLocal.day, 12);
                               Timestamp fechaS = Timestamp.fromDate(fechaUtc);
                               String horaS = horaController.text;
 
                               await controlador
-                                  .agregarCita(dropdownValue!, dropdownValue2!,
-                                      fechaS, horaS, monto)
+                                  .agregarCita(ClienteSeleccionado!,
+                                      dropdownValue2!, fechaS, horaS, monto)
                                   .then((_) {
                                 dialogosAlerta
                                     .mostrarAlertaExitosa(context)

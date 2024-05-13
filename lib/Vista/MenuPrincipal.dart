@@ -80,7 +80,7 @@ class _VentanaState extends State<Ventana> {
               //mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(
-                  height: 50,
+                  height: 40,
                 ),
 
                 //Padding(padding: EdgeInsets.all(10.0)),
@@ -110,25 +110,8 @@ class _VentanaState extends State<Ventana> {
                   ],
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 12,
                 ),
-                /*Container(
-                  width: 280,
-                  height: 280,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/Logo.png'),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'Gestion Consultorio Dental',
-                  style: TextStyle(fontSize: 20, fontFamily: 'LatoBlack'),
-                ),*/
                 const Text(
                   'Bienvenida Dra. Dalia Margarita',
                   style: TextStyle(
@@ -139,6 +122,13 @@ class _VentanaState extends State<Ventana> {
                 const SizedBox(
                   height: 15,
                 ),
+                const Text(
+                  'Citas del día',
+                  style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
                 Expanded(
                     child: Container(
                         padding: const EdgeInsets.only(
@@ -148,8 +138,8 @@ class _VentanaState extends State<Ventana> {
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
                                 width: 3, color: const Color(0xFF5571FF))),
-                        child: FutureBuilder(
-                            future: controlador.listarCitas('Diario'),
+                        child: StreamBuilder(
+                            stream: controlador.listarCitasStream(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
@@ -164,8 +154,7 @@ class _VentanaState extends State<Ventana> {
                                                 fontWeight: FontWeight.bold)),
                                         subtitle: Text(
                                             '${snapshot.data![index].Fecha.toDate().toString().split(' ')[0]} ${snapshot.data![index].Hora}'),
-                                        trailing: Text(
-                                          snapshot.data![index].Servicio,
+                                        trailing: Text( '\$${snapshot.data![index].Monto}',
                                           style: const TextStyle(
                                               fontFamily: 'Lato',
                                               fontSize: 18,
@@ -214,25 +203,6 @@ class _VentanaState extends State<Ventana> {
                         ],
                       ),
                     )
-                    /*FloatingActionButton(
-                      backgroundColor: const Color(0xFF5571FF),
-                      shape: const CircleBorder(),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const VistaLCitas()));
-                      },
-                      child: const Text(
-                        'Ver mas',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),*/
                   ],
                 )
               ],
