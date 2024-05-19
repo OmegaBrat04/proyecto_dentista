@@ -22,8 +22,7 @@ class Cdor_Citas {
   }
 
   Future<List<Citas>> listarCitas(String periodo) async {
-
-    if(periodo == null || periodo.isEmpty){
+    if (periodo == null || periodo.isEmpty) {
       return List<Citas>.empty();
     }
     QuerySnapshot querySnapshot = await db.collection('Citas').get();
@@ -60,8 +59,7 @@ class Cdor_Citas {
   }
 
   Future<double> sumaMontos(String periodo) async {
-
-    if(periodo == null || periodo.isEmpty){
+    if (periodo == null || periodo.isEmpty) {
       return 0;
     }
     QuerySnapshot querySnapshot = await db.collection('Citas').get();
@@ -97,17 +95,20 @@ class Cdor_Citas {
   }
 
   Stream<List<Citas>> listarCitasStream() {
-  DateTime hoy = DateTime.now();
-  DateTime inicio = DateTime(hoy.year, hoy.month, hoy.day);
-  DateTime fin = DateTime(hoy.year, hoy.month, hoy.day, 23, 59, 59);
+    DateTime hoy = DateTime.now();
+    DateTime inicio = DateTime(hoy.year, hoy.month, hoy.day);
+    DateTime fin = DateTime(hoy.year, hoy.month, hoy.day, 23, 59, 59);
 
-  return db
-      .collection('Citas')
-      .where('Fecha', isGreaterThanOrEqualTo: Timestamp.fromDate(inicio))
-      .where('Fecha', isLessThanOrEqualTo: Timestamp.fromDate(fin))
-      .snapshots()
-      .map((snapshot) => snapshot.docs.map((doc) => Citas.fromMap(doc.id, doc.data() as Map<String, dynamic>)).toList());
-}
+    return db
+        .collection('Citas')
+        .where('Fecha', isGreaterThanOrEqualTo: Timestamp.fromDate(inicio))
+        .where('Fecha', isLessThanOrEqualTo: Timestamp.fromDate(fin))
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) =>
+                Citas.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+            .toList());
+  }
 
   Future<double> calcularGananciaActualizada(String plazo) async {
     double ganancia = await sumaMontos(plazo);
@@ -131,6 +132,4 @@ class Cdor_Citas {
 
     await db.collection('Citas').doc(id).update(citaModificada.toMap());
   }
-
-  
 }

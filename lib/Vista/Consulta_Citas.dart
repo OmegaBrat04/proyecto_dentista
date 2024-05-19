@@ -148,13 +148,13 @@ class _VistaLCitasState extends State<VistaLCitas> {
                                         onPressed: () async {
                                           final resultado =
                                               await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          EditarCitas(
-                                                            cita: snapshot
-                                                                .data![index],
-                                                          )));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => EditarCitas(
+                                                cita: snapshot.data![index],
+                                              ),
+                                            ),
+                                          );
                                           if (resultado == true) {
                                             setState(() {});
                                           }
